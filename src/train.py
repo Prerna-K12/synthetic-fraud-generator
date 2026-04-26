@@ -95,20 +95,22 @@ def create_metadata(df, target_column="Class"):
 
 
 def initialize_ctgan(metadata):
-    """Initialize the CTGAN synthesizer with optimal parameters."""
+    """Initialize the CTGAN synthesizer with optimal parameters for imbalanced data."""
     print("[INFO] Initializing CTGAN synthesizer...")
 
     synthesizer = CTGANSynthesizer(
         metadata,
-        epochs=100,
+        epochs=300,        # Increased for better convergence on imbalanced data
         verbose=True,
-        batch_size=500,
-        cuda=True,  # Explicitly enable CUDA
+        batch_size=256,    # Smaller batches for better gradient updates
+        embedding_dim=128, # Better feature representation
+        cuda=True,         # Enable GPU acceleration
     )
 
     print("[INFO] CTGAN synthesizer initialized with:")
-    print("  - epochs: 100")
-    print("  - batch_size: 500")
+    print("  - epochs: 300")
+    print("  - batch_size: 256")
+    print("  - embedding_dim: 128")
     print("  - verbose: True")
     print("  - cuda: True")
 
@@ -237,9 +239,9 @@ def main():
         print("[STEP 6] Saving model...")
         save_model(trained_synthesizer, model_path)
 
-        # Step 7: Generate synthetic data
+        # Step 7: Generate synthetic data (10x more for better class representation)
         print("[STEP 7] Generating synthetic data...")
-        synthetic_data = generate_synthetic_data(trained_synthesizer, num_rows=5000)
+        synthetic_data = generate_synthetic_data(trained_synthesizer, num_rows=50000)
 
         # Step 8: Save synthetic data
         print("[STEP 8] Saving synthetic data...")
