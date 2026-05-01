@@ -123,7 +123,7 @@ def prepare_data_for_tstr(real_data, synthetic_data, target_column="Class"):
     y_real = real_data[target_column]
 
     X_real_train, X_real_test, y_real_train, y_real_test = train_test_split(
-        X_real, y_real, test_size=0.2, random_state=42, stratify=y_real
+        X_real, y_real, test_size=0.25, random_state=42, stratify=y_real
     )
 
     print(f"  - Synthetic training samples: {len(X_synthetic):,}")
